@@ -1,0 +1,34 @@
+{
+  "name": "novedad-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "migrate": "node src/db/migrate.js",
+    "migrate:admin": "node src/db/migrate_admin.js",
+    "migrate:payroll": "node src/db/migrate_payroll.js",
+    "migrate:concepts": "node src/db/migrate_concepts.js",
+    "migrate:employees": "node src/db/migrate_employees.js",
+    "migrate:smmlv": "node src/db/migrate_smmlv.js",
+    "seed:settings": "node src/db/seed_settings.js",
+    "migrate:hours": "node src/db/migrate_hour_categories.js",
+    "migrate:absence-types": "node src/db/migrate_absence_types.js",
+    "migrate:absence-catalog": "node src/db/migrate_absence_code_catalog.js",
+    "migrate:schedule-import": "node src/db/migrate_schedule_import.js",
+    "seed:employees-excel": "node src/db/seed_employees_from_excel.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mathjs": "^15.2.0",
+    "multer": "^1.4.5-lts.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

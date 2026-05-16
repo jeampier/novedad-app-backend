@@ -1,0 +1,11 @@
+const { register } = require('./commandBus')
+const { registerAbsence }  = require('../handlers/absenceHandler')
+const { registerAccident } = require('../handlers/accidentHandler')
+const { changeShift }      = require('../handlers/shiftHandler')
+const { onboardEmployee, offboardEmployee } = require('../handlers/employeeHandler')
+
+register('RegisterAbsence',  registerAbsence)
+register('RegisterAccident', registerAccident)
+register('ChangeShift',      changeShift)
+register('OnboardEmployee',  onboardEmployee)
+register('OffboardEmployee', offboardEmployee)
