@@ -8,7 +8,11 @@ router.get('/summary', requireAuth, async (req, res, next) => {
     const year = now.getFullYear()
     const month = now.getMonth() + 1
 
-    const [employees, absencesMonth, accidentsMonth, recentAbsences, absencesByType, activePeriod] = await Promise.all([
+    const [
+      employees, absencesMonth, accidentsMonth,
+      recentAbsences, absencesByType, activePeriod,
+      absencesActiveToday, absenceDaysMonth, daysSinceAccident,
+    ] = await Promise.all([
       query(`SELECT COUNT(*) FROM employees WHERE status='active'`),
       query(
         `SELECT COUNT(*) FROM absences
@@ -38,16 +42,36 @@ router.get('/summary', requireAuth, async (req, res, next) => {
         [year, month]
       ),
       query(`SELECT * FROM payroll_periods WHERE status='open' ORDER BY start_date DESC LIMIT 1`),
+      query(
+        `SELECT COUNT(*) FROM absences
+         WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE`
+      ),
+      query(
+        `SELECT COALESCE(SUM(
+           LEAST(end_date, (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' - INTERVAL '1 day')::date)
+           - GREATEST(start_date, DATE_TRUNC('month', CURRENT_DATE)::date)
+           + 1
+         ), 0) AS total_days
+         FROM absences
+         WHERE start_date <= (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' - INTERVAL '1 day')::date
+           AND end_date >= DATE_TRUNC('month', CURRENT_DATE)::date`
+      ),
+      query(
+        `SELECT (CURRENT_DATE - MAX(date))::int AS days_since FROM accidents`
+      ),
     ])
 
     res.json({
       data: {
-        activeEmployees:   parseInt(employees.rows[0].count),
-        absencesThisMonth: parseInt(absencesMonth.rows[0].count),
-        accidentsThisMonth: parseInt(accidentsMonth.rows[0].count),
-        recentAbsences:    recentAbsences.rows,
-        absencesByType:    absencesByType.rows,
-        activePeriod:      activePeriod.rows[0] || null,
+        activeEmployees:      parseInt(employees.rows[0].count),
+        absencesThisMonth:    parseInt(absencesMonth.rows[0].count),
+        accidentsThisMonth:   parseInt(accidentsMonth.rows[0].count),
+        recentAbsences:       recentAbsences.rows,
+        absencesByType:       absencesByType.rows,
+        activePeriod:         activePeriod.rows[0] || null,
+        absencesActiveToday:  parseInt(absencesActiveToday.rows[0].count),
+        absenceDaysMonth:     parseInt(absenceDaysMonth.rows[0].total_days),
+        daysSinceAccident:    daysSinceAccident.rows[0].days_since ?? null,
       },
     })
   } catch (err) { next(err) }
