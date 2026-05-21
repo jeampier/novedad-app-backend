@@ -5,11 +5,12 @@ const loadSettings   = require('./pipeline/loadSettings')
 const loadEmployees  = require('./pipeline/loadEmployees')
 const loadSchedules  = require('./pipeline/loadSchedules')
 const loadNovelties  = require('./pipeline/loadNovelties')
-const loadRateRules  = require('./pipeline/loadRateRules')
-const applyConcepts  = require('./pipeline/applyConcepts')
-const applyRules     = require('./pipeline/applyRules')
-const calculateTotals= require('./pipeline/calculateTotals')
-const persistPayroll = require('./pipeline/persistPayroll')
+const loadRateRules       = require('./pipeline/loadRateRules')
+const applyConcepts       = require('./pipeline/applyConcepts')
+const applyRules          = require('./pipeline/applyRules')
+const calculateTotals     = require('./pipeline/calculateTotals')
+const persistPayroll      = require('./pipeline/persistPayroll')
+const liquidateRequests   = require('./pipeline/liquidateRequests')
 
 class PayrollEngine {
   constructor(options = {}) {
@@ -27,6 +28,7 @@ class PayrollEngine {
       .pipe(applyRules)
       .pipe(calculateTotals)
       .pipe(persistPayroll)
+      .pipe(liquidateRequests)
   }
 
   async run({ periodId, userId, options = {} }) {
