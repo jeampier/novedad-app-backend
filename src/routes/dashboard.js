@@ -8,10 +8,13 @@ router.get('/summary', requireAuth, async (req, res, next) => {
     const year = now.getFullYear()
     const month = now.getMonth() + 1
 
+    const OPEN_PERIOD = `(SELECT id FROM payroll_periods WHERE status='open' LIMIT 1)`
+
     const [
       employees, absencesMonth, accidentsMonth,
       recentAbsences, absencesByType, activePeriod,
       absencesActiveToday, absenceDaysMonth, daysSinceAccident,
+      scheduledEmployees, scheduledRestDays, scheduledAbsenceDays,
     ] = await Promise.all([
       query(`SELECT COUNT(*) FROM employees WHERE status='active'`),
       query(
@@ -56,9 +59,13 @@ router.get('/summary', requireAuth, async (req, res, next) => {
          WHERE start_date <= (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' - INTERVAL '1 day')::date
            AND end_date >= DATE_TRUNC('month', CURRENT_DATE)::date`
       ),
-      query(
-        `SELECT (CURRENT_DATE - MAX(date))::int AS days_since FROM accidents`
-      ),
+      query(`SELECT (CURRENT_DATE - MAX(date))::int AS days_since FROM accidents`),
+      query(`SELECT COUNT(DISTINCT employee_id) FROM work_schedule
+             WHERE period_id = ${OPEN_PERIOD} AND is_rest_day = false AND absence_type IS NULL`),
+      query(`SELECT COUNT(*) FROM work_schedule
+             WHERE period_id = ${OPEN_PERIOD} AND is_rest_day = true`),
+      query(`SELECT COUNT(*) FROM work_schedule
+             WHERE period_id = ${OPEN_PERIOD} AND absence_type IS NOT NULL`),
     ])
 
     res.json({
@@ -72,6 +79,9 @@ router.get('/summary', requireAuth, async (req, res, next) => {
         absencesActiveToday:  parseInt(absencesActiveToday.rows[0].count),
         absenceDaysMonth:     parseInt(absenceDaysMonth.rows[0].total_days),
         daysSinceAccident:    daysSinceAccident.rows[0].days_since ?? null,
+        scheduledEmployees:   parseInt(scheduledEmployees.rows[0].count),
+        scheduledRestDays:    parseInt(scheduledRestDays.rows[0].count),
+        scheduledAbsenceDays: parseInt(scheduledAbsenceDays.rows[0].count),
       },
     })
   } catch (err) { next(err) }
