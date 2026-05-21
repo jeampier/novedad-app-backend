@@ -25,6 +25,7 @@ const payrollSettings      = require('./routes/payroll/settings')
 const payrollAbsenceTypes  = require('./routes/payroll/absenceTypes')
 const payrollScheduleImport   = require('./routes/payroll/scheduleImport')
 const absenceCodeCatalog      = require('./routes/payroll/absenceCodeCatalog')
+const payrollRateRules        = require('./routes/payroll/rateRules')
 const dashboardRoutes         = require('./routes/dashboard')
 
 const app = express()
@@ -69,6 +70,7 @@ app.use('/api/payroll/settings',       payrollSettings)
 app.use('/api/payroll/absence-types',  payrollAbsenceTypes)
 app.use('/api/payroll/periods',              payrollScheduleImport)
 app.use('/api/payroll/absence-code-catalog', absenceCodeCatalog)
+app.use('/api/payroll/rate-rules',           payrollRateRules)
 
 app.use((err, req, res, next) => {
   console.error(err.message)

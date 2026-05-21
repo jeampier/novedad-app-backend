@@ -15,6 +15,7 @@
     "migrate:absence-types": "node src/db/migrate_absence_types.js",
     "migrate:absence-catalog": "node src/db/migrate_absence_code_catalog.js",
     "migrate:schedule-import": "node src/db/migrate_schedule_import.js",
+    "migrate:rate-rules": "node src/db/migrate_rate_rules.js",
     "seed:employees-excel": "node src/db/seed_employees_from_excel.js"
   },
   "dependencies": {

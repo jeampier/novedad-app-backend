@@ -13,7 +13,7 @@ module.exports = {
     for (const day of days) {
       if (day.is_rest_day || day.absence_type || !day.shift_type_id) continue
       const h   = Number(day.extra_hours || 0)
-      const mul = Number(day.extra_multiplier || 1.25)
+      const mul = Number(employee.resolvedRates?.extra_multiplier ?? day.extra_multiplier ?? 1.25)
       const pay = h * hourlyRate * mul
       if (h === 0) continue
       hours += h
