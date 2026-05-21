@@ -15,6 +15,22 @@ const payrollRecordRepo = {
     return rows
   },
 
+  async findByEmployee(employeeId) {
+    const { rows } = await query(
+      `SELECT pr.*,
+              e.name AS employee_name, e.document, e.position,
+              e.group_name, e.area, e.base_salary,
+              pp.name AS period_name, pp.start_date, pp.end_date, pp.status AS period_status
+       FROM payroll_records pr
+       JOIN employees e  ON e.id  = pr.employee_id
+       JOIN payroll_periods pp ON pp.id = pr.period_id
+       WHERE pr.employee_id = $1
+       ORDER BY pp.start_date DESC`,
+      [employeeId]
+    )
+    return rows
+  },
+
   async findById(id) {
     const { rows } = await query(
       `SELECT pr.*,

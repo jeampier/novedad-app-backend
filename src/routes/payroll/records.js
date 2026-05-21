@@ -11,6 +11,13 @@ router.get('/', requireAuth, async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// GET /api/payroll/records/employee/:employeeId
+router.get('/employee/:employeeId', requireAuth, async (req, res, next) => {
+  try {
+    res.json({ data: await repo.findByEmployee(req.params.employeeId) })
+  } catch (err) { next(err) }
+})
+
 // GET /api/payroll/records/:id
 router.get('/:id', requireAuth, async (req, res, next) => {
   try {
