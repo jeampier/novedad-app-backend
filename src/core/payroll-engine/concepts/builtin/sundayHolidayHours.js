@@ -14,7 +14,7 @@ module.exports = {
       if (day.is_rest_day || day.absence_type || !day.shift_type_id) continue
       const h   = Number(day.sunday_holiday_hours || 0)
       const mul = Number(employee.resolvedRates?.sunday_holiday_multiplier ?? day.sunday_holiday_multiplier ?? 1.75)
-      const pay = h * hourlyRate * mul
+      const pay = h * hourlyRate * (mul - 1.0)
       if (h === 0) continue
       hours += h
       value += pay
