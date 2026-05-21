@@ -17,6 +17,7 @@
     "migrate:schedule-import": "node src/db/migrate_schedule_import.js",
     "migrate:rate-rules": "node src/db/migrate_rate_rules.js",
     "migrate:shift-ordinary": "node src/db/migrate_shift_ordinary_hours.js",
+    "migrate:requests": "node src/db/migrate_requests.js",
     "seed:rate-rules": "node src/db/seed_rate_rules.js",
     "seed:concepts": "node src/db/seed_concepts.js",
     "seed:employees-excel": "node src/db/seed_employees_from_excel.js"
