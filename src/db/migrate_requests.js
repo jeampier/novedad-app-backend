@@ -4,7 +4,7 @@ const { pool } = require('./client')
 const schema = `
 CREATE TABLE IF NOT EXISTS employee_requests (
   id            SERIAL PRIMARY KEY,
-  type          VARCHAR(30) NOT NULL CHECK (type IN ('vacaciones','permiso','incapacidad')),
+  type          VARCHAR(30) NOT NULL,
   employee_id   INTEGER NOT NULL REFERENCES employees(id) ON DELETE CASCADE,
   start_date    DATE NOT NULL,
   end_date      DATE NOT NULL,
