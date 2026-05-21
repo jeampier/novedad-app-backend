@@ -38,6 +38,13 @@ app.use(cors({
 app.use(express.json())
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
+
+app.get('/api/version', (_, res) => {
+  res.json({
+    version: process.env.APP_VERSION || '1.0.0',
+    notes: (process.env.APP_RELEASE_NOTES || '').split('|').filter(Boolean),
+  })
+})
 app.use('/api/dashboard', dashboardRoutes)
 
 app.use('/api/auth',           authRoutes)
