@@ -13,3 +13,7 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: APP_RELEASE_NOTES
+        sync: false
