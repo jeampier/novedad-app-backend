@@ -79,5 +79,10 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || 'Error interno' })
 })
 
+// ❌ Antes
+//const PORT = process.env.PORT || 3001
+//app.listen(PORT, () => console.log('Backend en puerto ' + PORT))
+
+// ✅ Después
 const PORT = process.env.PORT || 3001
-app.listen(PORT, () => console.log('Backend en puerto ' + PORT))
+app.listen(PORT, '0.0.0.0', () => console.log('Backend en puerto ' + PORT))
