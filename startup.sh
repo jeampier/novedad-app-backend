@@ -13,4 +13,5 @@ npm run migrate:rate-rules
 npm run migrate:shift-ordinary
 npm run migrate:requests
 npm run migrate:contracts
+npm run migrate:absence-behavior
 npm start

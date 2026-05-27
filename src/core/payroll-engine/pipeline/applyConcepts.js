@@ -7,7 +7,7 @@ async function applyConcepts(ctx) {
 
   for (const emp of ctx.employees) {
     const days    = ctx.schedulesByEmployee[emp.id] || []
-    const agg     = aggregateEmployee(days, emp.base_salary)
+    const agg     = aggregateEmployee(days, emp.base_salary, ctx.absenceBehaviorMap || {})
     const concepts = {}
 
     // Run each built-in concept calculator

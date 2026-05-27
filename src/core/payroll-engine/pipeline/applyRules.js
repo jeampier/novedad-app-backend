@@ -1,6 +1,6 @@
 const { evaluate, evaluateConditions } = require('../evaluators/FormulaEvaluator')
 
-function buildVariables(result) {
+function buildVariables(result, settings = {}) {
   const { employee, attendance, hours } = result
   return {
     base_salary:          Number(employee.base_salary) || 0,
@@ -18,7 +18,7 @@ function buildVariables(result) {
     sunday_holiday_hours:      hours.sundayHoliday,
     rec_dom_noct_hours:        hours.recDomNoct,
     hourly_rate:          result.hourlyRate,
-    smmlv:                Number(employee.smmlv) || 1300000,
+    smmlv:                Number(employee.smmlv) || Number(settings.smmlv) || 0,
   }
 }
 
@@ -32,7 +32,7 @@ async function applyRules(ctx) {
 
   for (const emp of ctx.employees) {
     const result    = ctx.employeeResults[emp.id]
-    const variables = buildVariables(result)
+    const variables = buildVariables(result, ctx.settings)
 
     for (const concept of ctx.dynamicConcepts) {
       const activeRules = concept.rules

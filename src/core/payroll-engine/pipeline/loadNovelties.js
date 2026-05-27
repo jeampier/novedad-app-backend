@@ -23,6 +23,17 @@ async function loadNovelties(ctx) {
     absenceTypesRes.rows.map(t => [t.code, t])
   )
 
+  // Map behavior → code for motor de cálculo (evita hardcodear códigos en el motor)
+  // Ejemplo: { disability: 'incapacidad', vacation: 'vacaciones', paid_leave: 'licencia_remunerada' }
+  ctx.absenceBehaviorMap = Object.fromEntries(
+    absenceTypesRes.rows
+      .filter(t => t.behavior && t.behavior !== 'normal')
+      .map(t => [t.behavior, t.code])
+  )
+
+  // Inyectar en settings para que los conceptos builtin puedan accederlo
+  ctx.settings._absenceBehaviorMap = ctx.absenceBehaviorMap
+
   ctx.log(
     'loadNovelties',
     `${ctx.dynamicConcepts.length} conceptos dinámicos · ${rulesRes.rows.length} reglas · ${absenceTypesRes.rows.length} tipos de ausencia`,

@@ -21,11 +21,14 @@ module.exports = {
     }
 
     // Días liquidados: trabajados + incapacidad + licencia remunerada
+    const behaviorMap    = settings._absenceBehaviorMap || {}
+    const disabilityCode = behaviorMap.disability
+    const paidLeaveCode  = behaviorMap.paid_leave
     let diasLiq = 0
     for (const day of days) {
       if (!day.is_rest_day && !day.absence_type && day.shift_type_id) diasLiq++
-      else if (day.absence_type === 'incapacidad') diasLiq++
-      else if (day.absence_type === 'licencia_remunerada') diasLiq++
+      else if (disabilityCode && day.absence_type === disabilityCode) diasLiq++
+      else if (paidLeaveCode  && day.absence_type === paidLeaveCode)  diasLiq++
     }
 
     if (diasLiq === 0) return { value: 0, hours: null, breakdown: { applies: true, diasLiq: 0 } }

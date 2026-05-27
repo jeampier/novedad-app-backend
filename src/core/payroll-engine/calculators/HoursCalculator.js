@@ -53,7 +53,9 @@ function isWorkedDay(day) {
   return !day.is_rest_day && !day.absence_type && !!day.shift_type_id
 }
 
-function aggregateEmployee(days, baseSalary) {
+function aggregateEmployee(days, baseSalary, behaviorMap = {}) {
+  const disabilityCode = behaviorMap.disability
+  const vacationCode   = behaviorMap.vacation
   const hourlyRate = n(baseSalary) / 240
   let daysWorked = 0, restDays = 0, absenceDays = 0, disabilityDays = 0, vacationDays = 0
   let ordinary = 0, extra = 0, extraDiurDom = 0, extraNoct = 0, extraNoctDom = 0
@@ -63,10 +65,10 @@ function aggregateEmployee(days, baseSalary) {
 
   for (const day of days) {
     if (day.is_rest_day) { restDays++; continue }
-    if (day.absence_type === 'incapacidad') { disabilityDays++; continue }
-    if (day.absence_type === 'vacaciones')  { vacationDays++;   continue }
-    if (day.absence_type)                   { absenceDays++;    continue }
-    if (!day.shift_type_id)                 { continue }
+    if (disabilityCode && day.absence_type === disabilityCode) { disabilityDays++; continue }
+    if (vacationCode   && day.absence_type === vacationCode)   { vacationDays++;   continue }
+    if (day.absence_type)                                      { absenceDays++;    continue }
+    if (!day.shift_type_id)                                    { continue }
 
     daysWorked++
     const h   = calculateDay(day)
