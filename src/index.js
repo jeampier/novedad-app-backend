@@ -49,9 +49,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }))
-app.options('*', cors())
+
 // fin update
 app.use(express.json())
+app.options('*', cors())
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
 
