@@ -30,13 +30,27 @@ const dashboardRoutes         = require('./routes/dashboard')
 const requestRoutes           = require('./routes/requests')
 
 const app = express()
+// app.use(cors({
+//   origin: (origin, cb) => {
+//     if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin) || origin === process.env.FRONTEND_URL)
+//       return cb(null, true)
+//     cb(new Error('CORS no permitido'))
+//   }
+// }))
+
+//correcion cors
 app.use(cors({
   origin: (origin, cb) => {
     if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin) || origin === process.env.FRONTEND_URL)
       return cb(null, true)
     cb(new Error('CORS no permitido'))
-  }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }))
+app.options('*', cors())
+// fin update
 app.use(express.json())
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
