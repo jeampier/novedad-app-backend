@@ -20,7 +20,8 @@
     "migrate:requests": "node src/db/migrate_requests.js",
     "seed:rate-rules": "node src/db/seed_rate_rules.js",
     "seed:concepts": "node src/db/seed_concepts.js",
-    "seed:employees-excel": "node src/db/seed_employees_from_excel.js"
+    "seed:employees-excel": "node src/db/seed_employees_from_excel.js",
+    "migrate:contracts": "node src/db/migrate_contracts.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

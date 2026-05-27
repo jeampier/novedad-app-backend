@@ -28,6 +28,7 @@ const absenceCodeCatalog      = require('./routes/payroll/absenceCodeCatalog')
 const payrollRateRules        = require('./routes/payroll/rateRules')
 const dashboardRoutes         = require('./routes/dashboard')
 const requestRoutes           = require('./routes/requests')
+const contractRoutes          = require('./routes/contracts')
 
 const app = express()
 // app.use(cors({
@@ -86,6 +87,7 @@ app.use('/api/payroll/settings',       payrollSettings)
 app.use('/api/payroll/absence-types',  payrollAbsenceTypes)
 app.use('/api/payroll/periods',              payrollScheduleImport)
 app.use('/api/payroll/absence-code-catalog', absenceCodeCatalog)
+app.use('/api/contracts', contractRoutes)
 app.use('/api/requests', requestRoutes)
 app.use('/api/payroll/rate-rules',           payrollRateRules)
 
