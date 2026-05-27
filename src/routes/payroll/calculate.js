@@ -17,9 +17,10 @@ router.post('/', requireAuth, requireRole('admin', 'supervisor'), async (req, re
     )
 
     res.json({
-      data:    ctx.savedRecords,
-      message: `Nómina calculada para ${ctx.savedRecords.length} empleados`,
-      logs:    ctx.logs,
+      data:     ctx.savedRecords,
+      message:  `Nómina calculada para ${ctx.savedRecords.length} empleados`,
+      warnings: ctx.warnings || [],
+      logs:     ctx.logs,
     })
   } catch (err) { next(err) }
 })

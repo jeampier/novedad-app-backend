@@ -23,6 +23,8 @@
     "seed:employees-excel": "node src/db/seed_employees_from_excel.js",
     "migrate:contracts": "node src/db/migrate_contracts.js",
     "migrate:absence-behavior": "node src/db/migrate_absence_behavior.js",
+    "migrate:validation-rules": "node src/db/migrate_validation_rules.js",
+    "seed:validation-rules": "node src/db/seed_validation_rules.js",
     "seed:shift-types": "node src/db/seed_shift_types.js",
     "cleanup": "node src/db/cleanup.js"
   },

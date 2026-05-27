@@ -11,6 +11,7 @@ const applyRules          = require('./pipeline/applyRules')
 const calculateTotals     = require('./pipeline/calculateTotals')
 const persistPayroll      = require('./pipeline/persistPayroll')
 const liquidateRequests   = require('./pipeline/liquidateRequests')
+const validateEmployees   = require('./pipeline/validateEmployees')
 
 class PayrollEngine {
   constructor(options = {}) {
@@ -24,6 +25,7 @@ class PayrollEngine {
       .pipe(loadSchedules)
       .pipe(loadNovelties)
       .pipe(loadRateRules)
+      .pipe(validateEmployees)
       .pipe(applyConcepts)
       .pipe(applyRules)
       .pipe(calculateTotals)

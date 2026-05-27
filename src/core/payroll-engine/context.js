@@ -19,6 +19,9 @@ function createContext({ periodId, userId, options = {} }) {
     // Persisted records
     savedRecords: [],
 
+    // Advertencias de validación de reglas de negocio
+    warnings: [],
+
     // Structured execution log
     logs: [],
 

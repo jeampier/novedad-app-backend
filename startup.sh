@@ -14,4 +14,5 @@ npm run migrate:shift-ordinary
 npm run migrate:requests
 npm run migrate:contracts
 npm run migrate:absence-behavior
+npm run migrate:validation-rules
 npm start
