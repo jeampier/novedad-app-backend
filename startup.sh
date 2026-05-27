@@ -1,6 +1,8 @@
 #!/bin/sh
 npm run migrate
 npm run migrate:admin
+npm run migrate:payroll
+npm run migrate:concepts
 npm run migrate:employees
 npm run migrate:smmlv
 npm run migrate:hours
