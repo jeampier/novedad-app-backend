@@ -1,0 +1,571 @@
+{
+  "info": {
+    "name": "Novedad App API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3001" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@novedad.com\",\n  \"password\": \"admin123\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        { "name": "Health Check", "request": { "method": "GET", "url": "{{base_url}}/health" } },
+        { "name": "App Version", "request": { "method": "GET", "url": "{{base_url}}/api/version" } }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        { "name": "List Employees", "request": { "method": "GET", "url": "{{base_url}}/api/employees", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Employee", "request": { "method": "GET", "url": "{{base_url}}/api/employees/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/employees",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Juan\",\n  \"lastName\": \"Pérez\",\n  \"documentType\": \"CC\",\n  \"document\": \"123456789\",\n  \"position\": \"Desarrollador\",\n  \"area\": \"Tecnología\",\n  \"groupName\": \"Grupo A\",\n  \"shiftTypeId\": 1,\n  \"startDate\": \"2024-01-01\",\n  \"baseSalary\": 3000000,\n  \"smmlv\": 1,\n  \"phone\": \"3001234567\",\n  \"email\": \"juan.perez@novedad.com\"\n}" }
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/employees/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Juan\",\n  \"lastName\": \"Pérez\",\n  \"position\": \"Senior Developer\",\n  \"area\": \"Tecnología\",\n  \"baseSalary\": 3500000\n}" }
+          }
+        },
+        {
+          "name": "Change Employee Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/employees/:id/status",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"inactive\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Absences",
+      "item": [
+        { "name": "List Absences", "request": { "method": "GET", "url": "{{base_url}}/api/absences", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Accidents",
+      "item": [
+        { "name": "List Accidents", "request": { "method": "GET", "url": "{{base_url}}/api/accidents", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Shifts",
+      "item": [
+        { "name": "List Shifts", "request": { "method": "GET", "url": "{{base_url}}/api/shifts", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        { "name": "Summary", "request": { "method": "GET", "url": "{{base_url}}/api/dashboard/summary", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Requests",
+      "item": [
+        { "name": "List Requests", "request": { "method": "GET", "url": "{{base_url}}/api/requests", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Request", "request": { "method": "GET", "url": "{{base_url}}/api/requests/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Request",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/requests",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"type\": \"vacation\",\n  \"employeeId\": 1,\n  \"startDate\": \"2024-02-01\",\n  \"endDate\": \"2024-02-07\",\n  \"reason\": \"Vacaciones anuales\"\n}" }
+          }
+        },
+        {
+          "name": "Approve Request",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/requests/:id/approve",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"notes\": \"Aprobado\"\n}" }
+          }
+        },
+        {
+          "name": "Reject Request",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/requests/:id/reject",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"notes\": \"No aplica por fechas\"\n}" }
+          }
+        },
+        { "name": "Liquidate Request", "request": { "method": "PUT", "url": "{{base_url}}/api/requests/:id/liquidate", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Contracts",
+      "item": [
+        { "name": "List Contracts", "request": { "method": "GET", "url": "{{base_url}}/api/contracts", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Contracts by Employee", "request": { "method": "GET", "url": "{{base_url}}/api/contracts/employee/:employee_id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Contract", "request": { "method": "GET", "url": "{{base_url}}/api/contracts/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Admin - Users",
+      "item": [
+        { "name": "List Users", "request": { "method": "GET", "url": "{{base_url}}/api/admin/users", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/users",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"usuario@novedad.com\",\n  \"password\": \"password123\",\n  \"full_name\": \"Nombre Apellido\",\n  \"role\": \"operator\"\n}" }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/admin/users/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"Nombre Actualizado\",\n  \"role\": \"operator\",\n  \"status\": \"active\"\n}" }
+          }
+        },
+        { "name": "Deactivate User", "request": { "method": "PATCH", "url": "{{base_url}}/api/admin/users/:id/deactivate", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Activate User", "request": { "method": "PATCH", "url": "{{base_url}}/api/admin/users/:id/activate", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/admin/users/:id/reset-password",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"password\": \"nuevaPassword123\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Roles",
+      "item": [
+        { "name": "List Roles", "request": { "method": "GET", "url": "{{base_url}}/api/admin/roles", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "List Permissions", "request": { "method": "GET", "url": "{{base_url}}/api/admin/roles/permissions", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Role",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/roles",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"supervisor\",\n  \"description\": \"Rol de supervisor\"\n}" }
+          }
+        },
+        {
+          "name": "Update Role",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/admin/roles/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"supervisor\",\n  \"description\": \"Descripción actualizada\"\n}" }
+          }
+        },
+        {
+          "name": "Update Role Permissions",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/admin/roles/:id/permissions",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"permissionIds\": [1, 2, 3]\n}" }
+          }
+        },
+        { "name": "Delete Role", "request": { "method": "DELETE", "url": "{{base_url}}/api/admin/roles/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Admin - Audit",
+      "item": [
+        { "name": "Audit Stats", "request": { "method": "GET", "url": "{{base_url}}/api/admin/audit/stats", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Audit Logs", "request": { "method": "GET", "url": "{{base_url}}/api/admin/audit", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Login History", "request": { "method": "GET", "url": "{{base_url}}/api/admin/audit/login-history", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Concepts",
+      "item": [
+        { "name": "List Concepts", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/concepts", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Variables", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/concepts/variables", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Validate Formula",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/concepts/validate-formula",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"formula\": \"baseSalary * 0.04\"\n}" }
+          }
+        },
+        {
+          "name": "Simulate Concept",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/concepts/simulate",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"conceptId\": 1,\n  \"variables\": { \"baseSalary\": 3000000 }\n}" }
+          }
+        },
+        {
+          "name": "Create Concept",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/concepts",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Auxilio de transporte\",\n  \"code\": \"AUX_TRANSPORTE\",\n  \"formula\": \"200000\",\n  \"type\": \"earning\"\n}" }
+          }
+        },
+        {
+          "name": "Update Concept",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/concepts/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Auxilio de transporte\",\n  \"formula\": \"213000\"\n}" }
+          }
+        },
+        { "name": "Delete Concept", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/concepts/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Concept Rules", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/concepts/:id/rules", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Concept Rule",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/concepts/:id/rules",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"formula\": \"baseSalary * 0.04\",\n  \"condition\": \"baseSalary > 1000000\"\n}" }
+          }
+        },
+        {
+          "name": "Update Rule",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/concepts/:cid/rules/:rid",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"formula\": \"baseSalary * 0.05\"\n}" }
+          }
+        },
+        { "name": "Delete Rule", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/concepts/:cid/rules/:rid", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Rule Snapshots", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/concepts/:cid/rules/:rid/snapshots", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Shift Types",
+      "item": [
+        { "name": "List Shift Types", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/shift-types", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Shift Type",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/shift-types",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Turno diurno\",\n  \"startTime\": \"06:00\",\n  \"endTime\": \"14:00\",\n  \"hoursPerDay\": 8\n}" }
+          }
+        },
+        {
+          "name": "Update Shift Type",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/shift-types/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Turno diurno\",\n  \"startTime\": \"07:00\",\n  \"endTime\": \"15:00\"\n}" }
+          }
+        },
+        { "name": "Delete Shift Type", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/shift-types/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Schedule",
+      "item": [
+        { "name": "Get Schedule", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/schedule?month=1&year=2024", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Schedule Entry",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/schedule",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"date\": \"2024-01-15\",\n  \"shiftTypeId\": 1\n}" }
+          }
+        },
+        {
+          "name": "Bulk Schedule",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/schedule/bulk",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"entries\": [\n    { \"employeeId\": 1, \"date\": \"2024-01-15\", \"shiftTypeId\": 1 },\n    { \"employeeId\": 1, \"date\": \"2024-01-16\", \"shiftTypeId\": 1 }\n  ]\n}" }
+          }
+        },
+        { "name": "Delete Schedule Entry", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/schedule/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Holidays",
+      "item": [
+        { "name": "List Holidays", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/holidays?year=2024", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Holiday",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/holidays",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2024-01-01\",\n  \"name\": \"Año Nuevo\"\n}" }
+          }
+        },
+        { "name": "Delete Holiday", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/holidays/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Periods",
+      "item": [
+        { "name": "List Periods", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/periods", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Period", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/periods/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Period",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/periods",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Enero 2024\",\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-01-31\"\n}" }
+          }
+        },
+        { "name": "Close Period", "request": { "method": "PATCH", "url": "{{base_url}}/api/payroll/periods/:id/close", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Reopen Period", "request": { "method": "PATCH", "url": "{{base_url}}/api/payroll/periods/:id/reopen", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Import Schedule", "request": { "method": "POST", "url": "{{base_url}}/api/payroll/periods/:id/import-schedule", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Schedule Grid", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/periods/:id/schedule-grid", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Calculate",
+      "item": [
+        {
+          "name": "Calculate Payroll",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/calculate",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"periodId\": 1\n}" }
+          }
+        },
+        {
+          "name": "Dry Run",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/calculate/dry-run",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"periodId\": 1\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll - Records",
+      "item": [
+        { "name": "List Records by Period", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/records?periodId=1", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Records by Employee", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/records/employee/:employeeId", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Record", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/records/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Export",
+      "item": [
+        { "name": "Export Payroll", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/export?periodId=1", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Settings",
+      "item": [
+        { "name": "List Settings", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/settings", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Update Setting",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/settings/:key",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"value\": 1300000\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll - Absence Types",
+      "item": [
+        { "name": "List Absence Types", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/absence-types", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Absence Type",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/absence-types",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"code\": \"INC\",\n  \"name\": \"Incapacidad\",\n  \"deduction_pct\": 0.33,\n  \"description\": \"Incapacidad médica\",\n  \"active\": true\n}" }
+          }
+        },
+        {
+          "name": "Update Absence Type",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/absence-types/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Incapacidad\",\n  \"deduction_pct\": 0.5,\n  \"description\": \"Incapacidad médica actualizada\",\n  \"active\": true\n}" }
+          }
+        },
+        { "name": "Delete Absence Type", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/absence-types/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Absence Code Catalog",
+      "item": [
+        { "name": "List Absence Codes", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/absence-code-catalog", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Absence Code",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/absence-code-catalog",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"code\": \"EPS001\",\n  \"description\": \"Incapacidad EPS\"\n}" }
+          }
+        },
+        { "name": "Delete Absence Code", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/absence-code-catalog/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Rate Rules",
+      "item": [
+        { "name": "List Rate Rules", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/rate-rules", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        {
+          "name": "Create Rate Rule",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/payroll/rate-rules",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Hora extra diurna\",\n  \"rate\": 1.25,\n  \"type\": \"overtime\"\n}" }
+          }
+        },
+        {
+          "name": "Update Rate Rule",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/payroll/rate-rules/:id",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Hora extra diurna\",\n  \"rate\": 1.25\n}" }
+          }
+        },
+        { "name": "Delete Rate Rule", "request": { "method": "DELETE", "url": "{{base_url}}/api/payroll/rate-rules/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Payroll - Validation Rules",
+      "item": [
+        { "name": "List Validation Rules", "request": { "method": "GET", "url": "{{base_url}}/api/payroll/validation-rules", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Admin - Bulk Import",
+      "item": [
+        {
+          "name": "Descargar plantilla empleados",
+          "request": { "method": "GET", "url": "{{base_url}}/api/admin/bulk-import/template/employees", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] }
+        },
+        {
+          "name": "Descargar plantilla reglas de tarifas",
+          "request": { "method": "GET", "url": "{{base_url}}/api/admin/bulk-import/template/rate-rules", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] }
+        },
+        {
+          "name": "Descargar plantilla tipos de ausencia",
+          "request": { "method": "GET", "url": "{{base_url}}/api/admin/bulk-import/template/absence-types", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] }
+        },
+        {
+          "name": "Descargar plantilla catálogo de ausencias",
+          "request": { "method": "GET", "url": "{{base_url}}/api/admin/bulk-import/template/absence-catalog", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] }
+        },
+        {
+          "name": "Descargar plantilla conceptos",
+          "request": { "method": "GET", "url": "{{base_url}}/api/admin/bulk-import/template/concepts", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] }
+        },
+        {
+          "name": "Cargar empleados (Excel)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/bulk-import/employees",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "", "description": "Archivo .xlsx con empleados" }] }
+          }
+        },
+        {
+          "name": "Cargar reglas de tarifas (Excel)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/bulk-import/rate-rules",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "", "description": "Archivo .xlsx con reglas de tarifas" }] }
+          }
+        },
+        {
+          "name": "Cargar tipos de ausencia (Excel)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/bulk-import/absence-types",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "", "description": "Archivo .xlsx con tipos de ausencia" }] }
+          }
+        },
+        {
+          "name": "Cargar catálogo de ausencias (Excel)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/bulk-import/absence-catalog",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "", "description": "Archivo .xlsx con catálogo de ausencias" }] }
+          }
+        },
+        {
+          "name": "Cargar conceptos de nómina (Excel)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/admin/bulk-import/concepts",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "", "description": "Archivo .xlsx con conceptos de nómina" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Commands",
+      "item": [
+        {
+          "name": "Dispatch Command",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/commands",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"type\": \"COMMAND_NAME\",\n  \"payload\": {}\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}
