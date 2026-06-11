@@ -24,7 +24,8 @@ router.get('/:id', requireAuth, async (req, res, next) => {
 router.post('/', requireAuth, requireRole('admin', 'supervisor'), async (req, res, next) => {
   try {
     const { firstName, lastName, documentType, document, position, area, groupName,
-            shiftTypeId, startDate, baseSalary, smmlv, phone, email } = req.body
+            shiftTypeId, startDate, baseSalary, smmlv, phone, email,
+            bankName, accountType, accountNumber } = req.body
 
     if (!firstName || !document || !position) {
       return res.status(400).json({ error: 'firstName, document y position son requeridos' })
@@ -33,6 +34,7 @@ router.post('/', requireAuth, requireRole('admin', 'supervisor'), async (req, re
     const emp = await repo.create({
       firstName, lastName, documentType, document, position, area, groupName,
       shiftTypeId, startDate, baseSalary, smmlv, phone, email,
+      bankName, accountType, accountNumber,
       createdBy: req.user.id,
     })
     res.status(201).json({ data: emp })

@@ -47,21 +47,28 @@ async function importEmployees(buffer, userId) {
     const base_salary    = num(r.base_salary || r.salario_base)
     const smmlv          = num(r.smmlv)
     const shift_type_id  = r.shift_type_id ? parseInt(r.shift_type_id) : null
+    const bank_name      = str(r.bank_name || r.banco) || null
+    const account_type   = str(r.account_type || r.tipo_cuenta) || null
+    const account_number = str(r.account_number || r.numero_cuenta || r.n_cuenta) || null
 
     const { rows: res } = await query(
       `INSERT INTO employees
          (first_name, last_name, document_type, document, position, area, group_name,
-          phone, email, start_date, base_salary, smmlv, shift_type_id, status, created_by, created_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,'active',$14,NOW())
+          phone, email, start_date, base_salary, smmlv, shift_type_id,
+          bank_name, account_type, account_number, status, created_by, created_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,'active',$17,NOW())
        ON CONFLICT (document) DO UPDATE SET
          first_name=EXCLUDED.first_name, last_name=EXCLUDED.last_name,
          document_type=EXCLUDED.document_type, position=EXCLUDED.position,
          area=EXCLUDED.area, group_name=EXCLUDED.group_name, phone=EXCLUDED.phone,
          email=EXCLUDED.email, start_date=EXCLUDED.start_date, base_salary=EXCLUDED.base_salary,
-         smmlv=EXCLUDED.smmlv, shift_type_id=EXCLUDED.shift_type_id
+         smmlv=EXCLUDED.smmlv, shift_type_id=EXCLUDED.shift_type_id,
+         bank_name=EXCLUDED.bank_name, account_type=EXCLUDED.account_type,
+         account_number=EXCLUDED.account_number
        RETURNING (xmax = 0) AS is_insert`,
       [first_name, last_name, document_type, document, position, area, group_name,
-       phone, email, start_date, base_salary ?? 0, smmlv ?? 0, shift_type_id, userId]
+       phone, email, start_date, base_salary ?? 0, smmlv ?? 0, shift_type_id,
+       bank_name, account_type, account_number, userId]
     )
     res[0].is_insert ? inserted++ : updated++
   }
@@ -222,8 +229,8 @@ async function importConcepts(buffer, userId) {
 
 const TEMPLATES = {
   employees: {
-    headers: ['first_name','last_name','document_type','document','position','area','group_name','shift_type_id','start_date','base_salary','smmlv','phone','email'],
-    example:  ['Juan','Pérez','CC','123456789','Operador','Producción','Grupo A',1,'2024-01-01',1300000,1,'3001234567','juan@empresa.com'],
+    headers: ['first_name','last_name','document_type','document','position','area','group_name','shift_type_id','start_date','base_salary','smmlv','phone','email','bank_name','account_type','account_number'],
+    example:  ['Juan','Pérez','CC','123456789','Operador','Producción','Grupo A',1,'2024-01-01',1300000,1,'3001234567','juan@empresa.com','Bancolombia','Ahorros','12345678901'],
   },
   'rate-rules': {
     headers: ['group_name','position','extra_multiplier','extra_diur_dom_multiplier','extra_noct_multiplier','extra_noct_dom_multiplier','night_multiplier','surcharge_multiplier','sunday_holiday_multiplier','rec_dom_noct_multiplier','notes'],

@@ -5,13 +5,15 @@ const employeeRepo = {
     const { rows } = await query(
       `INSERT INTO employees
          (first_name, last_name, document_type, document, position, area, group_name,
-          start_date, shift_type_id, base_salary, smmlv, phone, email, created_by)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *`,
+          start_date, shift_type_id, base_salary, smmlv, phone, email,
+          bank_name, account_type, account_number, created_by)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING *`,
       [
         d.firstName, d.lastName || '', d.documentType || 'CC',
         d.document, d.position, d.area || null, d.groupName || null,
         d.startDate || null, d.shiftTypeId || null, d.baseSalary || 0,
-        d.smmlv || 0, d.phone || null, d.email || null, d.createdBy,
+        d.smmlv || 0, d.phone || null, d.email || null,
+        d.bankName || null, d.accountType || null, d.accountNumber || null, d.createdBy,
       ]
     )
     return rows[0]
@@ -20,24 +22,28 @@ const employeeRepo = {
   async update(id, d) {
     const { rows } = await query(
       `UPDATE employees SET
-         first_name    = $1,
-         last_name     = $2,
-         document_type = $3,
-         document      = $4,
-         position      = $5,
-         area          = $6,
-         group_name    = $7,
-         shift_type_id = $8,
-         base_salary   = $9,
-         smmlv         = $10,
-         phone         = $11,
-         email         = $12
-       WHERE id = $13 RETURNING *`,
+         first_name     = $1,
+         last_name      = $2,
+         document_type  = $3,
+         document       = $4,
+         position       = $5,
+         area           = $6,
+         group_name     = $7,
+         shift_type_id  = $8,
+         base_salary    = $9,
+         smmlv          = $10,
+         phone          = $11,
+         email          = $12,
+         bank_name      = $13,
+         account_type   = $14,
+         account_number = $15
+       WHERE id = $16 RETURNING *`,
       [
         d.firstName, d.lastName || '', d.documentType || 'CC',
         d.document, d.position, d.area || null, d.groupName || null,
         d.shiftTypeId || null, d.baseSalary ?? 0,
-        d.smmlv ?? 0, d.phone || null, d.email || null, id,
+        d.smmlv ?? 0, d.phone || null, d.email || null,
+        d.bankName || null, d.accountType || null, d.accountNumber || null, id,
       ]
     )
     return rows[0] || null

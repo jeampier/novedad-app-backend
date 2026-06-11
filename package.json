@@ -10,6 +10,7 @@
     "migrate:concepts": "node src/db/migrate_concepts.js",
     "migrate:employees": "node src/db/migrate_employees.js",
     "migrate:smmlv": "node src/db/migrate_smmlv.js",
+    "migrate:employee-bank": "node src/db/migrate_employee_bank.js",
     "seed:settings": "node src/db/seed_settings.js",
     "migrate:hours": "node src/db/migrate_hour_categories.js",
     "migrate:absence-types": "node src/db/migrate_absence_types.js",
