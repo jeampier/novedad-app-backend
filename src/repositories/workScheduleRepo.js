@@ -2,12 +2,13 @@ const { query } = require('../db/client')
 
 const workScheduleRepo = {
   async findByMonth(year, month) {
-    const start = `${year}-${String(month).padStart(2, '0')}-01`
-    const end   = `${year}-${String(month).padStart(2, '0')}-31`
+    const start   = `${year}-${String(month).padStart(2, '0')}-01`
+    const lastDay = new Date(year, month, 0).getDate()
+    const end     = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
     const { rows } = await query(
       `SELECT
          e.id AS employee_id, e.name AS employee_name,
-         e.position, e.group_name, e.area,
+         e.position, e.group_name, e.area, e.status,
          ws.id, ws.schedule_date, ws.is_rest_day, ws.absence_type, ws.notes,
          st.id AS shift_type_id, st.code AS shift_code,
          st.name AS shift_name, st.color AS shift_color,
@@ -19,7 +20,6 @@ const workScheduleRepo = {
          ON ws.employee_id = e.id
          AND ws.schedule_date BETWEEN $1 AND $2
        LEFT JOIN shift_types st ON st.id = ws.shift_type_id
-       WHERE e.status = 'active'
        ORDER BY e.name, ws.schedule_date`,
       [start, end]
     )
@@ -27,8 +27,9 @@ const workScheduleRepo = {
   },
 
   async findByEmployeeAndMonth(employeeId, year, month) {
-    const start = `${year}-${String(month).padStart(2, '0')}-01`
-    const end   = `${year}-${String(month).padStart(2, '0')}-31`
+    const start   = `${year}-${String(month).padStart(2, '0')}-01`
+    const lastDay = new Date(year, month, 0).getDate()
+    const end     = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
     const { rows } = await query(
       `SELECT ws.*, st.code AS shift_code, st.name AS shift_name, st.color AS shift_color
        FROM work_schedule ws
