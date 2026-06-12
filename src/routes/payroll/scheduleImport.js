@@ -9,7 +9,8 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 
 router.post('/:id/import-schedule', requireAuth, requireRole('admin', 'supervisor'), upload.single('file'), async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Se requiere un archivo .xlsx' })
-    const result = await importSchedule(req.file.buffer, Number(req.params.id), req.user.id)
+    const dryRun = req.body.dryRun === 'true'
+    const result = await importSchedule(req.file.buffer, Number(req.params.id), req.user.id, { dryRun })
     res.json({ data: result })
   } catch (err) {
     next(err)
