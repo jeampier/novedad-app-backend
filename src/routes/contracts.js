@@ -1,6 +1,7 @@
   const { Router } = require('express')
   const { requireAuth } = require('../middleware/auth')
   const repo = require('../repositories/contractsRepo')
+  const { generateContractPdf } = require('../services/contractPdfService')
 
   const router = Router()
 
@@ -24,6 +25,22 @@
       const row = await repo.findById(req.params.id)
       if (!row) return res.status(404).json({ error: 'Contrato no encontrado' })
       res.json(row)
+    } catch (e) { next(e) }
+  })
+
+  // PDF del contrato
+  router.get('/:id/pdf', requireAuth, async (req, res, next) => {
+    try {
+      const contract = await repo.findById(req.params.id)
+      if (!contract) return res.status(404).json({ error: 'Contrato no encontrado' })
+
+      const pdf = await generateContractPdf(contract)
+      const filename = `contrato_${contract.first_name}_${contract.last_name}_${contract.id}.pdf`
+        .replace(/\s+/g, '_').normalize('NFD').replace(/[̀-ͯ]/g, '')
+
+      res.setHeader('Content-Type', 'application/pdf')
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+      res.send(pdf)
     } catch (e) { next(e) }
   })
 

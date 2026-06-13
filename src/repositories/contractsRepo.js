@@ -12,7 +12,8 @@ async function findAll() {
 
 async function findById(id) {
   const { rows } = await query(
-    `SELECT c.*, e.first_name, e.last_name
+    `SELECT c.*, e.first_name, e.last_name, e.document, e.document_type,
+            e.email, e.phone, e.area
      FROM contracts c
      JOIN employees e ON e.id = c.employee_id
      WHERE c.id = $1`,

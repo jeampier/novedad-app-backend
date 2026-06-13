@@ -29,10 +29,10 @@ const shiftTypeRepo = {
         d.totalHours || 0, d.ordinaryHours || 0,
         d.extraHours || 0, d.extraDiurDomHours || 0, d.extraNoctHours || 0, d.extraNoctDomHours || 0,
         d.nightHours || 0, d.surchargeHours || 0, d.sundayHolidayHours || 0, d.recDomNoctHours || 0,
-        d.extraMultiplier ?? 1.25, d.extraDiurDomMultiplier ?? 1.75,
-        d.extraNoctMultiplier ?? 1.75, d.extraNoctDomMultiplier ?? 2.10,
-        d.nightMultiplier ?? 1.35, d.surchargeMultiplier ?? 1.35,
-        d.sundayHolidayMultiplier ?? 1.75, d.recDomNoctMultiplier ?? 2.10,
+        d.extraMultiplier ?? null, d.extraDiurDomMultiplier ?? null,
+        d.extraNoctMultiplier ?? null, d.extraNoctDomMultiplier ?? null,
+        d.nightMultiplier ?? null, d.surchargeMultiplier ?? null,
+        d.sundayHolidayMultiplier ?? null, d.recDomNoctMultiplier ?? null,
         d.color || '#3B82F6', d.createdBy,
       ]
     )
@@ -54,10 +54,10 @@ const shiftTypeRepo = {
         d.totalHours || 0, d.ordinaryHours || 0,
         d.extraHours || 0, d.extraDiurDomHours || 0, d.extraNoctHours || 0, d.extraNoctDomHours || 0,
         d.nightHours || 0, d.surchargeHours || 0, d.sundayHolidayHours || 0, d.recDomNoctHours || 0,
-        d.extraMultiplier ?? 1.25, d.extraDiurDomMultiplier ?? 1.75,
-        d.extraNoctMultiplier ?? 1.75, d.extraNoctDomMultiplier ?? 2.10,
-        d.nightMultiplier ?? 1.35, d.surchargeMultiplier ?? 1.35,
-        d.sundayHolidayMultiplier ?? 1.75, d.recDomNoctMultiplier ?? 2.10,
+        d.extraMultiplier ?? null, d.extraDiurDomMultiplier ?? null,
+        d.extraNoctMultiplier ?? null, d.extraNoctDomMultiplier ?? null,
+        d.nightMultiplier ?? null, d.surchargeMultiplier ?? null,
+        d.sundayHolidayMultiplier ?? null, d.recDomNoctMultiplier ?? null,
         d.color || '#3B82F6', d.active ?? true, id,
       ]
     )
