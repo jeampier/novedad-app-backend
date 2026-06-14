@@ -27,6 +27,7 @@
     "migrate:validation-rules": "node src/db/migrate_validation_rules.js",
     "seed:validation-rules": "node src/db/seed_validation_rules.js",
     "seed:shift-types": "node src/db/seed_shift_types.js",
+    "migrate:scheduled-tasks": "node src/db/migrate_scheduled_tasks.js",
     "cleanup": "node src/db/cleanup.js"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "jsonwebtoken": "^9.0.2",
     "mathjs": "^15.2.0",
     "multer": "^1.4.5-lts.2",
+    "node-cron": "^3.0.3",
     "pg": "^8.11.3",
     "puppeteer": "^25.1.0"
   },

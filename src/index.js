@@ -14,6 +14,9 @@ const adminRoles     = require('./routes/admin/roles')
 const adminAudit     = require('./routes/admin/audit')
 const adminCleanup     = require('./routes/admin/cleanup')
 const adminBulkImport  = require('./routes/admin/bulkImport')
+const adminScheduledTasks = require('./routes/admin/scheduledTasks')
+
+const { startScheduler } = require('./services/taskScheduler')
 
 const payrollConcepts   = require('./routes/payroll/concepts')
 const payrollShiftTypes = require('./routes/payroll/shiftTypes')
@@ -79,6 +82,7 @@ app.use('/api/admin/roles',    adminRoles)
 app.use('/api/admin/audit',    adminAudit)
 app.use('/api/admin/cleanup',      adminCleanup)
 app.use('/api/admin/bulk-import',  adminBulkImport)
+app.use('/api/admin/scheduled-tasks', adminScheduledTasks)
 
 app.use('/api/payroll/concepts',    payrollConcepts)
 app.use('/api/payroll/shift-types', payrollShiftTypes)
@@ -108,4 +112,7 @@ app.use((err, req, res, next) => {
 
 // ✅ Después
 const PORT = process.env.PORT || 3001
-app.listen(PORT, '0.0.0.0', () => console.log('Backend en puerto ' + PORT))
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('Backend en puerto ' + PORT)
+  startScheduler()
+})
