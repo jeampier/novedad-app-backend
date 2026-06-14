@@ -21,6 +21,13 @@ router.post('/', requireAuth, requireRole('admin', 'supervisor'), async (req, re
     if (!name || !startDate || !endDate) {
       return res.status(400).json({ error: 'Se requieren name, startDate y endDate' })
     }
+    const days = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
+    if (days < 0) {
+      return res.status(400).json({ error: 'La fecha fin no puede ser anterior a la fecha inicio' })
+    }
+    if (days > 31) {
+      return res.status(400).json({ error: 'El período no puede superar 31 días (CST art. 134: el pago de salario no puede pactarse por períodos mayores a un mes)' })
+    }
     const period = await repo.create({ name, startDate, endDate, createdBy: req.user.id })
     res.status(201).json({ data: period })
   } catch (err) { next(err) }
