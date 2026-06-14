@@ -2,6 +2,7 @@ const { Router } = require('express')
 const { requireAuth } = require('../middleware/auth')
 const repo    = require('../repositories/requestsRepo')
 const absRepo = require('../repositories/absenceRepo')
+const notificationRepo = require('../repositories/notificationRepo')
 
 const router = Router()
 
@@ -31,6 +32,14 @@ router.post('/', requireAuth, async (req, res, next) => {
     if (new Date(endDate) < new Date(startDate))
       return res.status(400).json({ error: 'La fecha fin debe ser igual o posterior a la fecha inicio' })
     const r = await repo.create({ type, employeeId, startDate, endDate, reason, userId: req.user.id })
+
+    await notificationRepo.createForAdmins({
+      type: 'request_created',
+      title: 'Nueva solicitud',
+      message: `${r.employee_name} solicitó ${r.type} (${r.start_date} – ${r.end_date})`,
+      link: '/requests',
+    })
+
     res.status(201).json(r)
   } catch (e) { next(e) }
 })
@@ -62,6 +71,15 @@ router.put('/:id/approve', requireAuth, async (req, res, next) => {
       notes:  req.body.notes,
       absenceId,
     })
+
+    await notificationRepo.create({
+      recipientId: updated.requested_by,
+      type: 'request_approved',
+      title: 'Solicitud aprobada',
+      message: `Tu solicitud de ${updated.type} (${updated.start_date} – ${updated.end_date}) fue aprobada`,
+      link: '/requests',
+    })
+
     res.json(updated)
   } catch (e) { next(e) }
 })
@@ -74,6 +92,15 @@ router.put('/:id/reject', requireAuth, async (req, res, next) => {
     if (request.status !== 'pendiente')
       return res.status(400).json({ error: `No se puede rechazar una solicitud en estado "${request.status}"` })
     const updated = await repo.reject(req.params.id, { userId: req.user.id, notes: req.body.notes })
+
+    await notificationRepo.create({
+      recipientId: updated.requested_by,
+      type: 'request_rejected',
+      title: 'Solicitud rechazada',
+      message: `Tu solicitud de ${updated.type} (${updated.start_date} – ${updated.end_date}) fue rechazada`,
+      link: '/requests',
+    })
+
     res.json(updated)
   } catch (e) { next(e) }
 })
